@@ -36,9 +36,9 @@ def discriminator_model():
     model.add(Convolution2D(
                         64, 5, 5,
                         border_mode='same',
-                        input_shape=(1, 28, 28)))
+                        input_shape=(1, 28, 28), dim_ordering="th"))
     model.add(Activation('tanh'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
     model.add(Convolution2D(128, 5, 5))
     model.add(Activation('tanh'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
