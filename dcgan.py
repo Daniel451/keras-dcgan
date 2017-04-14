@@ -1,3 +1,4 @@
+from keras import backend as K
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Reshape
@@ -12,6 +13,11 @@ import numpy as np
 from PIL import Image
 import argparse
 import math
+
+K.set_image_dim_ordering("th")
+print(K.backend())
+print(K.image_data_format())
+print(K.image_dim_ordering())
 
 
 def generator_model():
