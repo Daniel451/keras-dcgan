@@ -36,7 +36,7 @@ def discriminator_model():
     model.add(Convolution2D(
                         64, 5, 5,
                         border_mode='same',
-                        input_shape=(1, 28, 28)))
+                        input_shape=(28, 28, 1)))
     model.add(Activation('tanh'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Convolution2D(128, 5, 5))
@@ -76,7 +76,10 @@ def combine_images(generated_images):
 def train(BATCH_SIZE):
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
     X_train = (X_train.astype(np.float32) - 127.5)/127.5
-    X_train = X_train.reshape((X_train.shape[0], 1) + X_train.shape[1:])
+    # print(X_train.shape)
+    X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], X_train.shape[2], 1)
+    # print(X_train.shape)
+    # exit()
     discriminator = discriminator_model()
     generator = generator_model()
     discriminator_on_generator = \
@@ -95,7 +98,9 @@ def train(BATCH_SIZE):
         for index in range(int(X_train.shape[0]/BATCH_SIZE)):
             for i in range(BATCH_SIZE):
                 noise[i, :] = np.random.uniform(-1, 1, 100)
+            print(X_train.shape)
             image_batch = X_train[index*BATCH_SIZE:(index+1)*BATCH_SIZE]
+            print(image_batch.shape)
             generated_images = generator.predict(noise, verbose=0)
             if index % 20 == 0:
                 image = combine_images(generated_images)
